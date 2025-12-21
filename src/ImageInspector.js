@@ -3,7 +3,7 @@ export class ImageInspector {
     this.parsers = parsers
   }
 
-  async analyze(file) {
+  async inspect(file) {
     // Find the first parser that can handle this file
     for (const parser of this.parsers) {
       if (await parser.canParse(file)) {
