@@ -1,5 +1,6 @@
 import { ImageInspector } from './ImageInspector.js'
 import { PNGParser } from './parsers/PNGParser.js'
+import { MetadataRenderer } from './MetadataRenderer.js'
 
 
 const inspector = new ImageInspector([
@@ -7,17 +8,21 @@ const inspector = new ImageInspector([
 ])
 
 
-const dropZone = document.getElementById('dropZone')
-const fileInput = document.getElementById('fileInput')
-const placeholder = document.getElementById('placeholder')
-const preview = document.getElementById('preview')
-const metadataDisplay = document.getElementById('metadataDisplay')
+const $dropZone = document.getElementById('dropZone')
+const $fileInput = document.getElementById('fileInput')
+const $preview = document.getElementById('preview')
+const $placeholder = document.getElementById('placeholder')
+const $metadata = document.getElementById('metadata')
+
 
 let currentObjectURL = null
+const metadataCtl = new MetadataRenderer($metadata)
 
 
 async function handleFile(file) {
   if (!file) return
+
+  metadataCtl.setState({ loading: true })
 
   // Clean up previous object URL:
   if (currentObjectURL) {
@@ -26,55 +31,52 @@ async function handleFile(file) {
 
   // Show preview immediately:
   currentObjectURL = URL.createObjectURL(file)
-  preview.src = currentObjectURL
-  preview.classList.remove('hidden')
-  placeholder.classList.add('hidden')
+  $preview.src = currentObjectURL
+  $preview.classList.remove('hidden')
+  $placeholder.classList.add('hidden')
 
   // Analyze the image:
-  metadataDisplay.classList.remove('error')
-  metadataDisplay.textContent = 'Analyzing...'
-
   try {
-    const metadata = await inspector.inspect(file)
-    metadataDisplay.textContent = JSON.stringify(metadata, null, 2)
+    const data = await inspector.inspect(file)
+    metadataCtl.setState({ data })
 
   } catch (error) {
-    metadataDisplay.classList.add('error')
-    metadataDisplay.textContent = `Error: ${error.message}`
+    metadataCtl.setState({ error })
   }
 }
 
 
-fileInput.addEventListener('change', (e) => {
+$fileInput.addEventListener('change', (e) => {
   const file = e.target.files[0]
   handleFile(file)
 })
 
-dropZone.addEventListener('click', () => {
-  fileInput.click()
+$dropZone.addEventListener('click', () => {
+  $fileInput.click()
 })
 
-dropZone.addEventListener('dragenter', (e) => {
+$dropZone.addEventListener('dragenter', (e) => {
   e.preventDefault()
-  dropZone.classList.add('drag-over')
+  $dropZone.classList.add('drag-over')
 })
 
-dropZone.addEventListener('dragover', (e) => {
+$dropZone.addEventListener('dragover', (e) => {
   e.preventDefault()
-  dropZone.classList.add('drag-over')
+  $dropZone.classList.add('drag-over')
 })
 
-dropZone.addEventListener('dragleave', (e) => {
+$dropZone.addEventListener('dragleave', (e) => {
   e.preventDefault()
-  dropZone.classList.remove('drag-over')
+  $dropZone.classList.remove('drag-over')
 })
 
-dropZone.addEventListener('drop', (e) => {
+$dropZone.addEventListener('drop', (e) => {
   e.preventDefault()
-  dropZone.classList.remove('drag-over')
+  $dropZone.classList.remove('drag-over')
 
   const files = e.dataTransfer.files
   if (files.length > 0) {
     handleFile(files[0])
   }
 })
+
