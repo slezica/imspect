@@ -113,18 +113,37 @@ function PNGExtras({ data }) {
   }
 
   return (
+    <>
+      <PNGMetadataSingle entries={singleLine} />
+      <PNGMetadataMulti entries={multiLine} />
+    </>
+  )
+}
+
+function PNGMetadataSingle({ entries }) {
+  if (entries.length === 0) return null
+
+  return (
     <section>
       <h1>Text Metadata</h1>
-      {singleLine.length > 0 && (
-        <dl>
-          {singleLine.map(([key, value]) => (
-            <span key={key}>
-              <dt>{key}</dt> <dd>{value}</dd>
-            </span>
-          ))}
-        </dl>
-      )}
-      {multiLine.map(([key, value]) => (
+      <dl>
+        {entries.map(([key, value]) => (
+          <span key={key}>
+            <dt>{key}</dt> <dd>{value}</dd>
+          </span>
+        ))}
+      </dl>
+    </section>
+  )
+}
+
+function PNGMetadataMulti({ entries }) {
+  if (entries.length === 0) return null
+
+  return (
+    <section>
+      <h1>Text Metadata</h1>
+      {entries.map(([key, value]) => (
         <div key={key} class="multiline">
           <h2>{key}</h2>
           {value}

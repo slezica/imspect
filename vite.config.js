@@ -5,11 +5,6 @@ import preact from '@preact/preset-vite';
 export default defineConfig({
   root: 'src',
   plugins: [preact(), viteSingleFile()],
-  esbuild: {
-    jsxFactory: 'h',
-    jsxFragment: 'Fragment',
-    jsxInject: `import { h, Fragment } from 'preact'`
-  },
   build: {
     target: 'esnext',
     assetsInlineLimit: 100000000,
