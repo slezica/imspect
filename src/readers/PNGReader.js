@@ -32,7 +32,7 @@ export class PNGReader {
     const arrayBuffer = await file.arrayBuffer()
     const decoded = UPNG.decode(arrayBuffer)
 
-    return {
+    const result = {
       format: 'PNG',
       file: {
         name: file.name,
@@ -47,6 +47,13 @@ export class PNGReader {
         bitDepth: decoded.depth
       }
     }
+
+    // Extract text metadata if present
+    if (decoded.tabs && Object.keys(decoded.tabs).length > 0) {
+      result.textMetadata = decoded.tabs
+    }
+
+    return result
   }
 
   async _readFileHeader(file, numBytes) {

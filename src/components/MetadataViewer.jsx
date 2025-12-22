@@ -76,12 +76,63 @@ export function MetadataViewer({ data, error, loading }) {
               <dt>Bit Depth</dt> <dd>{data.color.bitDepth} bits</dd>
             </dl>
           </section>
+
+          {data.format === 'PNG' && <PNGExtras data={data} />}
         </div>
       )}
     </div>
   )
 }
 
+
+function PNGExtras({ data }) {
+  if (!data.textMetadata) { return null }
+
+  const textMetadata = data.textMetadata
+  const entries = Object.entries(textMetadata)
+
+  if (entries.length === 0) { return null }
+
+  const singleLineFields = new Set([
+    'Title', 'Author', 'Software', 'Source', 'Copyright', 'Creation Time', 'Create Time', 'Modify Time'
+  ])
+
+  const singleLine = []
+  const multiLine = []
+
+  for (const [key, value] of entries) {
+    const valueEl = (typeof value == 'string')
+      ? <p>{value}</p>
+      : <pre>{JSON.stringify(value)}</pre>
+
+    if (singleLineFields.has(key)) {
+      singleLine.push([key, valueEl])
+    } else {
+      multiLine.push([key, valueEl])
+    }
+  }
+
+  return (
+    <section>
+      <h1>Text Metadata</h1>
+      {singleLine.length > 0 && (
+        <dl>
+          {singleLine.map(([key, value]) => (
+            <span key={key}>
+              <dt>{key}</dt> <dd>{value}</dd>
+            </span>
+          ))}
+        </dl>
+      )}
+      {multiLine.map(([key, value]) => (
+        <div key={key} class="multiline">
+          <h2>{key}</h2>
+          {value}
+        </div>
+      ))}
+    </section>
+  )
+}
 
 function formatFileSize(bytes) {
   if (bytes < 1024) return `${bytes} bytes`

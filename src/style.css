@@ -139,10 +139,19 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* .metadata-content { */
-/*   width: 100%; */
-/*   height: 100%; */
-/* } */
+.metadata {
+  pre {
+    border-radius: 8px;
+    padding: 1rem;
+    max-width: 100%;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #e0e0e0;
+  }
+}
 
 .metadata .view.json pre {
   padding: 20px;
@@ -151,8 +160,6 @@ button:disabled {
   font-size: 13px;
   line-height: 1.6;
   color: #e0e0e0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
 }
 
 .metadata .view.pretty {
@@ -177,6 +184,13 @@ button:disabled {
     letter-spacing: 0.5px;
   }
 
+  section h2 {
+    color: #999;
+    font-weight: 400;
+    font-size: 1.1em;
+    margin-bottom: 0.75rem;
+  }
+
   section dl {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -193,6 +207,14 @@ button:disabled {
   section dt {
     font-weight: 500;
     color: #999;
+  }
+
+  pre {
+    background-color: #333;
+  }
+
+  .multiline {
+    margin-bottom: 1.2rem;
   }
 }
 
