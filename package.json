@@ -1,18 +1,25 @@
 {
   "name": "html-png-inspector",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@preact/preset-vite": "^2.10.2",
+    "playwright": "^1.57.0",
+    "serve": "^14.2.5",
     "vite": "^7.3.0",
     "vite-plugin-singlefile": "^2.3.0"
   },
