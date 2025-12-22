@@ -11,8 +11,8 @@ const PNG_COLOR_TYPES = {
 }
 
 
-export class PNGParser {
-  async canParse(file) {
+export class PNGReader {
+  async canRead(file) {
     if (!file.name.toLowerCase().endsWith('.png')) {
       return false
     }
@@ -28,7 +28,7 @@ export class PNGParser {
     return true
   }
 
-  async parse(file) {
+  async read(file) {
     const arrayBuffer = await file.arrayBuffer()
     const decoded = UPNG.decode(arrayBuffer)
 

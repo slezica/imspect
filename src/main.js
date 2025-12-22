@@ -1,11 +1,11 @@
-import { ImageInspector } from './ImageInspector.js'
-import { PNGParser } from './parsers/PNGParser.js'
+import { ImageReader } from './readers/ImageReader.js'
+import { PNGReader } from './readers/PNGReader.js'
 import { MetadataController } from './controllers/MetadataController.js'
 import { FileInputController } from './controllers/FileInputController.js'
 
 
-const inspector = new ImageInspector([
-  new PNGParser()
+const reader = new ImageReader([
+  new PNGReader()
 ])
 
 
@@ -34,7 +34,7 @@ async function handleFile(file) {
 
   // Analyze the image:
   try {
-    const data = await inspector.inspect(file)
+    const data = await reader.read(file)
     metadataCtl.setState({ data })
 
   } catch (error) {
