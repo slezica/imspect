@@ -114,9 +114,31 @@ function PNGExtras({ data }) {
 
   return (
     <>
+      <PNGCompression data={data} />
       <PNGMetadataSingle entries={singleLine} />
       <PNGMetadataMulti entries={multiLine} />
     </>
+  )
+}
+
+function PNGCompression({ data }) {
+  if (!data.compression) return null
+
+  const { compressionMethod, filterMethod, interlaceMethod } = data.compression
+
+  const compressionMethodLabel = compressionMethod === 0 ? 'Deflate' : `Unknown (${compressionMethod})`
+  const filterMethodLabel = filterMethod === 0 ? 'Adaptive' : `Unknown (${filterMethod})`
+  const interlaceMethodLabel = interlaceMethod === 1 ? 'Adam7' : 'None'
+
+  return (
+    <section>
+      <h1>Compression</h1>
+      <dl>
+        <dt>Compression Method</dt> <dd>{compressionMethodLabel}</dd>
+        <dt>Filter Method</dt> <dd>{filterMethodLabel}</dd>
+        <dt>Interlace Method</dt> <dd>{interlaceMethodLabel}</dd>
+      </dl>
+    </section>
   )
 }
 

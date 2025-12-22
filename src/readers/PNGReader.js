@@ -45,6 +45,11 @@ export class PNGReader {
       color: {
         colorType: PNG_COLOR_TYPES[decoded.ctype] || `Unknown (${decoded.ctype})`,
         bitDepth: decoded.depth
+      },
+      compression: {
+        compressionMethod: 0, // PNG spec: always 0 (deflate)
+        filterMethod: 0, // PNG spec: always 0 (adaptive)
+        interlaceMethod: decoded.interlace || 0 // 0 = none, 1 = Adam7
       }
     }
 
