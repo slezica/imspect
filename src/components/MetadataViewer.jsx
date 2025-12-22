@@ -115,6 +115,7 @@ function PNGExtras({ data }) {
   return (
     <>
       <PNGCompression data={data} />
+      <PNGPhysicalDimensions data={data} />
       <PNGMetadataSingle entries={singleLine} />
       <PNGMetadataMulti entries={multiLine} />
     </>
@@ -137,6 +138,42 @@ function PNGCompression({ data }) {
         <dt>Compression Method</dt> <dd>{compressionMethodLabel}</dd>
         <dt>Filter Method</dt> <dd>{filterMethodLabel}</dd>
         <dt>Interlace Method</dt> <dd>{interlaceMethodLabel}</dd>
+      </dl>
+    </section>
+  )
+}
+
+function PNGPhysicalDimensions({ data }) {
+  if (!data.physicalDimensions) return null
+
+  const { pixelsPerUnitX, pixelsPerUnitY, unit } = data.physicalDimensions
+
+  // Unit: 0 = unknown, 1 = meter
+  if (unit === 0) {
+    return (
+      <section>
+        <h1>Physical Dimensions</h1>
+        <dl>
+          <dt>Pixels Per Unit (X)</dt> <dd>{pixelsPerUnitX}</dd>
+          <dt>Pixels Per Unit (Y)</dt> <dd>{pixelsPerUnitY}</dd>
+          <dt>Unit</dt> <dd>Unknown</dd>
+        </dl>
+      </section>
+    )
+  }
+
+  // Convert pixels per meter to DPI (dots per inch)
+  const dpiX = Math.round(pixelsPerUnitX * 0.0254)
+  const dpiY = Math.round(pixelsPerUnitY * 0.0254)
+
+  return (
+    <section>
+      <h1>Physical Dimensions</h1>
+      <dl>
+        <dt>DPI (X)</dt> <dd>{dpiX}</dd>
+        <dt>DPI (Y)</dt> <dd>{dpiY}</dd>
+        <dt>Pixels Per Meter (X)</dt> <dd>{pixelsPerUnitX}</dd>
+        <dt>Pixels Per Meter (Y)</dt> <dd>{pixelsPerUnitY}</dd>
       </dl>
     </section>
   )

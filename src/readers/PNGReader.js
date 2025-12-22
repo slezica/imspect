@@ -53,9 +53,21 @@ export class PNGReader {
       }
     }
 
-    // Extract text metadata if present
+    // Extract physical dimensions (pHYs chunk) if present
+    if (decoded.tabs?.pHYs) {
+      result.physicalDimensions = {
+        pixelsPerUnitX: decoded.tabs.pHYs[0],
+        pixelsPerUnitY: decoded.tabs.pHYs[1],
+        unit: decoded.tabs.pHYs[2] // 0 = unknown, 1 = meter
+      }
+    }
+
+    // Extract text metadata if present (excluding pHYs which we handled above)
     if (decoded.tabs && Object.keys(decoded.tabs).length > 0) {
-      result.textMetadata = decoded.tabs
+      const { pHYs, ...textMetadata } = decoded.tabs
+      if (Object.keys(textMetadata).length > 0) {
+        result.textMetadata = textMetadata
+      }
     }
 
     return result
