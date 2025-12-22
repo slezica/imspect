@@ -1,6 +1,7 @@
 import { ImageInspector } from './ImageInspector.js'
 import { PNGParser } from './parsers/PNGParser.js'
 import { MetadataRenderer } from './MetadataRenderer.js'
+import { FileInputRenderer } from './FileInputRenderer.js'
 
 
 const inspector = new ImageInspector([
@@ -9,14 +10,12 @@ const inspector = new ImageInspector([
 
 
 const $dropZone = document.getElementById('dropZone')
-const $fileInput = document.getElementById('fileInput')
-const $preview = document.getElementById('preview')
-const $placeholder = document.getElementById('placeholder')
 const $metadata = document.getElementById('metadata')
 
 
 let currentObjectURL = null
 const metadataCtl = new MetadataRenderer($metadata)
+const fileInputCtl = new FileInputRenderer($dropZone, handleFile)
 
 
 async function handleFile(file) {
@@ -31,9 +30,7 @@ async function handleFile(file) {
 
   // Show preview immediately:
   currentObjectURL = URL.createObjectURL(file)
-  $preview.src = currentObjectURL
-  $preview.classList.remove('hidden')
-  $placeholder.classList.add('hidden')
+  fileInputCtl.setState({ imageUrl: currentObjectURL })
 
   // Analyze the image:
   try {
@@ -44,39 +41,4 @@ async function handleFile(file) {
     metadataCtl.setState({ error })
   }
 }
-
-
-$fileInput.addEventListener('change', (e) => {
-  const file = e.target.files[0]
-  handleFile(file)
-})
-
-$dropZone.addEventListener('click', () => {
-  $fileInput.click()
-})
-
-$dropZone.addEventListener('dragenter', (e) => {
-  e.preventDefault()
-  $dropZone.classList.add('drag-over')
-})
-
-$dropZone.addEventListener('dragover', (e) => {
-  e.preventDefault()
-  $dropZone.classList.add('drag-over')
-})
-
-$dropZone.addEventListener('dragleave', (e) => {
-  e.preventDefault()
-  $dropZone.classList.remove('drag-over')
-})
-
-$dropZone.addEventListener('drop', (e) => {
-  e.preventDefault()
-  $dropZone.classList.remove('drag-over')
-
-  const files = e.dataTransfer.files
-  if (files.length > 0) {
-    handleFile(files[0])
-  }
-})
 
