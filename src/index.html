@@ -7,71 +7,7 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-
-  <div class="container">
-    <div class="left-panel">
-      <div class="drop-zone" id="dropZone">
-        <input type="file" id="fileInput" accept="image/*">
-        <div class="drop-zone-placeholder" id="placeholder">
-          <div class="drop-zone-text">Drop an image here</div>
-          <div class="drop-zone-hint">or click to select</div>
-        </div>
-        <img id="preview" class="hidden" alt="Preview">
-      </div>
-    </div>
-
-    <div class="right-panel">
-      <div class="metadata" id="metadata">
-        <button class="toggle-json" disabled>Show JSON</button>
-
-        <div class="placeholder view">
-          <h1>Metadata will appear here</h1>
-          <h2>when you select a file</h2>
-        </div>
-
-        <div class="loading view hidden">
-          <h1>Analyzing...</h1>
-        </div>
-
-        <div class="hidden error view">
-          <h1 class="metadata-placeholder-text error">Error</h1>
-          <h2 class="message"></div>
-
-        <div class="hidden pretty content view">
-          <section>
-            <h1>File</h1>
-            <dl>
-              <dt>Type</dt> <dd class="file-type"></dd>
-              <dt>Name</dt> <dd class="file-name"></dd>
-              <dt>Size</dt> <dd class="file-size"></dd>
-            </dl>
-          </section>
-
-          <section>
-            <h1>Dimensions</h1>
-            <dl>
-              <dt>Width</dt> <dd class="dimensions-width"></dd>
-              <dt>Height</dt> <dd class="dimensions-height"></dd>
-              <dt>Aspect Ratio</dt> <dd class="dimensions-aspect"></dd>
-            </dl>
-          </section>
-
-          <section>
-            <h1>Color Profile</h1>
-            <dl>
-              <dt>Color Type</dt> <dd class="color-type"></dd>
-              <dt>Bit Depth</dt> <dd class="color-depth"></dd>
-            </dl>
-          </section>
-        </div>
-
-        <div class="hidden content json view">
-          <pre></pre>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="/main.js"></script>
+  <div id="app"></div>
+  <script type="module" src="/main.jsx"></script>
 </body>
 </html>

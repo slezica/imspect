@@ -12,10 +12,12 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@preact/preset-vite": "^2.10.2",
     "vite": "^7.3.0",
     "vite-plugin-singlefile": "^2.3.0"
   },
   "dependencies": {
+    "preact": "^10.28.0",
     "upng-js": "^2.1.0"
   }
 }
