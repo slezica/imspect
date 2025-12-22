@@ -4,10 +4,12 @@ import { MetadataViewer } from './MetadataViewer'
 import { ImageReader } from '../readers/ImageReader'
 import { PNGReader } from '../readers/PNGReader'
 import { JPEGReader } from '../readers/JPEGReader'
+import { WebPReader } from '../readers/WebPReader'
 
 const reader = new ImageReader([
   new PNGReader(),
-  new JPEGReader()
+  new JPEGReader(),
+  new WebPReader()
 ])
 
 export function App() {

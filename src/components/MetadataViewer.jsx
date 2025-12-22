@@ -79,6 +79,7 @@ export function MetadataViewer({ data, error, loading }) {
 
           {data.format === 'PNG' && <PNGExtras data={data} />}
           {data.format === 'JPEG' && <JPEGExtras data={data} />}
+          {data.format === 'WebP' && <WebPExtras data={data} />}
         </div>
       )}
     </div>
@@ -89,13 +90,40 @@ export function MetadataViewer({ data, error, loading }) {
 function JPEGExtras({ data }) {
   return (
     <>
-      <JPEGCameraInfo data={data} />
-      <PNGMetadataSingle entries={data.textMetadata ? Object.entries(data.textMetadata).map(([k, v]) => [k, <p>{v}</p>]) : []} />
+      <ExifCameraInfo data={data} />
+      <CustomMetadataSingle entries={data.textMetadata ? Object.entries(data.textMetadata).map(([k, v]) => [k, <p>{v}</p>]) : []} />
     </>
   )
 }
 
-function JPEGCameraInfo({ data }) {
+function WebPExtras({ data }) {
+  return (
+    <>
+      <WebPFormat data={data} />
+      <ExifCameraInfo data={data} />
+      <CustomMetadataSingle entries={data.textMetadata ? Object.entries(data.textMetadata).map(([k, v]) => [k, <p>{v}</p>]) : []} />
+    </>
+  )
+}
+
+function WebPFormat({ data }) {
+  if (!data.webp) return null
+
+  const webp = data.webp
+
+  return (
+    <section>
+      <h1>WebP Format</h1>
+      <dl>
+        <dt>Compression</dt> <dd>{webp.compressionType}</dd>
+        <dt>Alpha Channel</dt> <dd>{webp.hasAlpha ? 'Yes' : 'No'}</dd>
+        <dt>Animated</dt> <dd>{webp.isAnimated ? 'Yes' : 'No'}</dd>
+      </dl>
+    </section>
+  )
+}
+
+function ExifCameraInfo({ data }) {
   if (!data.cameraInfo) return null
 
   const camera = data.cameraInfo
@@ -156,8 +184,8 @@ function PNGExtras({ data }) {
     <>
       <PNGCompression data={data} />
       <PNGPhysicalDimensions data={data} />
-      <PNGMetadataSingle entries={singleLine} />
-      <PNGMetadataMulti entries={multiLine} />
+      <CustomMetadataSingle entries={singleLine} />
+      <CustomMetadataMulti entries={multiLine} />
     </>
   )
 }
@@ -219,7 +247,7 @@ function PNGPhysicalDimensions({ data }) {
   )
 }
 
-function PNGMetadataSingle({ entries }) {
+function CustomMetadataSingle({ entries }) {
   if (entries.length === 0) return null
 
   return (
@@ -234,7 +262,7 @@ function PNGMetadataSingle({ entries }) {
   )
 }
 
-function PNGMetadataMulti({ entries }) {
+function CustomMetadataMulti({ entries }) {
   if (entries.length === 0) return null
 
   return (
