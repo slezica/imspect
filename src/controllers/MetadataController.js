@@ -1,4 +1,4 @@
-export class MetadataRenderer {
+export class MetadataController {
   constructor($container) {
     this.$container = $container
 

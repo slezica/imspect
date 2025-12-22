@@ -1,7 +1,7 @@
 import { ImageInspector } from './ImageInspector.js'
 import { PNGParser } from './parsers/PNGParser.js'
-import { MetadataRenderer } from './MetadataRenderer.js'
-import { FileInputRenderer } from './FileInputRenderer.js'
+import { MetadataController } from './controllers/MetadataController.js'
+import { FileInputController } from './controllers/FileInputController.js'
 
 
 const inspector = new ImageInspector([
@@ -14,8 +14,8 @@ const $metadata = document.getElementById('metadata')
 
 
 let currentObjectURL = null
-const metadataCtl = new MetadataRenderer($metadata)
-const fileInputCtl = new FileInputRenderer($dropZone, handleFile)
+const metadataCtl = new MetadataController($metadata)
+const fileInputCtl = new FileInputController($dropZone, handleFile)
 
 
 async function handleFile(file) {

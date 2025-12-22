@@ -1,4 +1,4 @@
-export class FileInputRenderer {
+export class FileInputController {
   constructor($container, onFileSelected) {
     this.$container = $container
     this.onFileSelected = onFileSelected
