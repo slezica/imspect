@@ -3,9 +3,11 @@ import { FileInput } from './FileInput'
 import { MetadataViewer } from './MetadataViewer'
 import { ImageReader } from '../readers/ImageReader'
 import { PNGReader } from '../readers/PNGReader'
+import { JPEGReader } from '../readers/JPEGReader'
 
 const reader = new ImageReader([
-  new PNGReader()
+  new PNGReader(),
+  new JPEGReader()
 ])
 
 export function App() {

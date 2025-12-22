@@ -78,12 +78,52 @@ export function MetadataViewer({ data, error, loading }) {
           </section>
 
           {data.format === 'PNG' && <PNGExtras data={data} />}
+          {data.format === 'JPEG' && <JPEGExtras data={data} />}
         </div>
       )}
     </div>
   )
 }
 
+
+function JPEGExtras({ data }) {
+  return (
+    <>
+      <JPEGCameraInfo data={data} />
+      <PNGMetadataSingle entries={data.textMetadata ? Object.entries(data.textMetadata).map(([k, v]) => [k, <p>{v}</p>]) : []} />
+    </>
+  )
+}
+
+function JPEGCameraInfo({ data }) {
+  if (!data.cameraInfo) return null
+
+  const camera = data.cameraInfo
+
+  return (
+    <section>
+      <h1>Camera</h1>
+      <dl>
+        {camera.make && <><dt>Make</dt> <dd>{camera.make}</dd></>}
+        {camera.model && <><dt>Model</dt> <dd>{camera.model}</dd></>}
+        {camera.iso !== undefined && <><dt>ISO</dt> <dd>{camera.iso}</dd></>}
+        {camera.exposureTime !== undefined && <><dt>Exposure Time</dt> <dd>{formatExposureTime(camera.exposureTime)}</dd></>}
+        {camera.fNumber !== undefined && <><dt>Aperture</dt> <dd>f/{camera.fNumber}</dd></>}
+        {camera.focalLength !== undefined && <><dt>Focal Length</dt> <dd>{camera.focalLength}mm</dd></>}
+        {camera.flash && <><dt>Flash</dt> <dd>{camera.flash}</dd></>}
+        {camera.meteringMode && <><dt>Metering Mode</dt> <dd>{camera.meteringMode}</dd></>}
+        {camera.exposureProgram && <><dt>Exposure Program</dt> <dd>{camera.exposureProgram}</dd></>}
+        {camera.whiteBalance && <><dt>White Balance</dt> <dd>{camera.whiteBalance}</dd></>}
+      </dl>
+    </section>
+  )
+}
+
+function formatExposureTime(seconds) {
+  if (seconds >= 1) return `${seconds}s`
+  const fraction = Math.round(1 / seconds)
+  return `1/${fraction}s`
+}
 
 function PNGExtras({ data }) {
   if (!data.textMetadata) { return null }
@@ -187,9 +227,7 @@ function PNGMetadataSingle({ entries }) {
       <h1>Text Metadata</h1>
       <dl>
         {entries.map(([key, value]) => (
-          <span key={key}>
-            <dt>{key}</dt> <dd>{value}</dd>
-          </span>
+          <><dt>{key}</dt> <dd>{value}</dd></>
         ))}
       </dl>
     </section>
