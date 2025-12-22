@@ -27,7 +27,7 @@ body {
 }
 
 .left-panel {
-  flex: 1;
+  flex: 0 0 50%;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -71,7 +71,7 @@ body {
 }
 
 .right-panel {
-  flex: 1;
+  flex: 0 0 50%;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -145,7 +145,7 @@ button:disabled {
     padding: 1rem;
     max-width: 100%;
     white-space: pre-wrap;
-    word-wrap: break-word;
+    word-wrap: anywhere;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: 13px;
     line-height: 1.6;
